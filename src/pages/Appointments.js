@@ -312,17 +312,17 @@ function Appointments() {
         {appointments.length === 0 ? (
           <p>No appointments found.</p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="table-responsive">
+            <table style={{ borderCollapse: 'collapse', minWidth: '800px' }}>
               <thead>
                 <tr style={{ backgroundColor: '#f8f9fa' }}>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Date</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Time</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Patient</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Duration</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Status</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Notes</th>
-                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Actions</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '12%' }}>Date</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '15%' }}>Time</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '20%' }}>Patient</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '10%' }}>Duration</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '10%' }}>Status</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '18%' }}>Notes</th>
+                  <th style={{ padding: '10px', textAlign: 'left', borderBottom: '2px solid #dee2e6', width: '15%' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -353,9 +353,9 @@ function Appointments() {
                         {appointment.status}
                       </span>
                     </td>
-                    <td style={{ padding: '10px' }}>
+                    <td style={{ padding: '10px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {appointment.notes ? 
-                        <span style={{ fontSize: '14px' }}>{appointment.notes.substring(0, 30)}...</span> : 
+                        <span style={{ fontSize: '14px' }} title={appointment.notes}>{appointment.notes.substring(0, 30)}...</span> : 
                         <span style={{ color: '#999' }}>-</span>
                       }
                     </td>

@@ -15,7 +15,10 @@ export const appointmentService = {
         return { success: false, error: validation.error };
       }
       
-      const response = await API.post('/appointments/create', appointmentData);
+      // Ensure no notes field is sent during creation
+      const { notes, ...createData } = appointmentData;
+      
+      const response = await API.post('/appointments/create', createData);
       return { success: true, data: response.data };
     } catch (error) {
       return { 

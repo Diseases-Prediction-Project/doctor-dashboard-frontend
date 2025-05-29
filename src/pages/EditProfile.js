@@ -153,7 +153,7 @@ const EditProfile = () => {
         </div>
       )}
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form-container">
         <section className="section">
           <h2>Profile Information</h2>
           

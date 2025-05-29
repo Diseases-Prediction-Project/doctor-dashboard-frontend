@@ -19,8 +19,7 @@ function AddAppointment() {
     patientId: '',
     date: '',
     startTime: '',
-    duration: '30', // Default 30 minutes
-    notes: ''
+    duration: '30' // Default 30 minutes
   });
 
   useEffect(() => {
@@ -29,15 +28,47 @@ function AddAppointment() {
 
   const fetchPatients = async () => {
     setLoadingPatients(true);
+    setError('');
     try {
       const result = await usersService.getAllPatients({ pageSize: 100 });
-      if (result.success) {
-        setPatients(result.data.items || []);
+      console.log('API Response:', result); // Debug the full response
+      
+      if (result.success && result.data) {
+        // Check if data is paginated or direct array
+        let patientsList = [];
+        
+        // Handle different response structures
+        if (Array.isArray(result.data)) {
+          patientsList = result.data;
+        } else if (result.data.data && Array.isArray(result.data.data)) {
+          patientsList = result.data.data;
+        } else if (result.data.items && Array.isArray(result.data.items)) {
+          patientsList = result.data.items;
+        }
+        
+        console.log('Extracted patients list:', patientsList); // Debug log
+        
+        // Filter to ensure we only show patients (not doctors)
+        const patientsOnly = patientsList.filter(user => 
+          user.profile && user.profile.isPatient === true
+        );
+        
+        console.log('Filtered patients:', patientsOnly); // Debug log
+        setPatients(patientsOnly);
+        
+        if (patientsOnly.length === 0 && patientsList.length > 0) {
+          // If we have users but no patients, show all users as a fallback
+          console.log('No patients found, showing all users as fallback');
+          setPatients(patientsList);
+        } else if (patientsOnly.length === 0) {
+          setError('No patients found. You may need to create patient accounts first.');
+        }
       } else {
-        setError('Failed to load patients');
+        setError(result.error || 'Failed to load patients');
       }
     } catch (err) {
-      setError('Failed to load patients');
+      console.error('Error fetching patients:', err);
+      setError('Failed to load patients. Please try again.');
     } finally {
       setLoadingPatients(false);
     }
@@ -96,8 +127,7 @@ function AddAppointment() {
         patientId: formData.patientId,
         doctorId: currentUser.id,
         appointmentStartDate: startDate.toISOString(),
-        appointmentEndDate: endDate.toISOString(),
-        notes: formData.notes || null
+        appointmentEndDate: endDate.toISOString()
       };
 
       // Check for conflicts
@@ -121,8 +151,7 @@ function AddAppointment() {
           patientId: '',
           date: '',
           startTime: '',
-          duration: '30',
-          notes: ''
+          duration: '30'
         });
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {
@@ -171,6 +200,9 @@ function AddAppointment() {
     );
   }
 
+  // Debug: Log patients array
+  console.log('Patients state:', patients);
+
   return (
     <div className="container">
       <h1 className="heading">Add New Appointment</h1>
@@ -199,8 +231,8 @@ function AddAppointment() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <label>Patient*</label>
+      <form onSubmit={handleSubmit} className="form-container">
+        <label>Patient* {patients.length > 0 && `(${patients.length} available)`}</label>
         <select
           name="patientId"
           value={formData.patientId}
@@ -209,11 +241,24 @@ function AddAppointment() {
           disabled={loading}
         >
           <option value="">Select a patient</option>
-          {patients.map(patient => (
-            <option key={patient.id} value={patient.id}>
-              {patient.email} {patient.profile && `(${patient.profile.firstName} ${patient.profile.lastName})`}
-            </option>
-          ))}
+          {patients.length === 0 ? (
+            <option disabled>No patients available</option>
+          ) : (
+            patients.map(patient => {
+              const displayName = patient.profile 
+                ? `${patient.profile.firstName || ''} ${patient.profile.lastName || ''}`.trim()
+                : '';
+              const displayText = displayName 
+                ? `${patient.email} (${displayName})`
+                : patient.email;
+              
+              return (
+                <option key={patient.id} value={patient.id}>
+                  {displayText}
+                </option>
+              );
+            })
+          )}
         </select>
 
         <label>Date*</label>
@@ -256,16 +301,6 @@ function AddAppointment() {
           <option value="45">45 minutes</option>
           <option value="60">1 hour</option>
         </select>
-
-        <label>Notes</label>
-        <textarea
-          name="notes"
-          value={formData.notes}
-          onChange={handleChange}
-          rows={4}
-          placeholder="Add any notes about this appointment..."
-          disabled={loading}
-        />
 
         <button type="submit" className="btn" disabled={loading}>
           {loading ? 'Creating...' : 'Add Appointment'}

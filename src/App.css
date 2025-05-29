@@ -49,7 +49,7 @@ body {
 
 /* Page Layout */
 .page-container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -68,6 +68,8 @@ body {
 .form {
   display: flex;
   flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form label {
@@ -165,7 +167,7 @@ body {
 
 /* General page container */
 .container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -209,7 +211,7 @@ body {
 
 /* Reuse existing container styling */
 .container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -289,7 +291,7 @@ select {
 
 /* Shared container */
 .container {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: #fff;
@@ -400,4 +402,60 @@ label {
 .text {
   text-align: center;
   color: #555;
+}
+
+/* Form container for better layout on large screens */
+.form-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Table responsive styles */
+table {
+  width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+/* Responsive wrapper for tables */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1400px) {
+  .container,
+  .page-container {
+    max-width: 95%;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .page-container {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  table {
+    font-size: 14px;
+  }
+  
+  /* Stack form elements on mobile */
+  .working-hour-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  /* Adjust dashboard cards */
+  .dashboard-cards {
+    flex-direction: column;
+  }
+  
+  .dashboard-card {
+    width: 100%;
+  }
 }
