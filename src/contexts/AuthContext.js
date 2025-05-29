@@ -22,8 +22,9 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     const currentUser = authService.getCurrentUser();
     if (currentUser && authService.isAuthenticated()) {
+      // Verify both token and doctor status
       const verifyResult = await authService.verifyToken();
-      if (verifyResult) {
+      if (verifyResult && currentUser.profile && currentUser.profile.isDoctor) {
         setUser(currentUser);
       } else {
         authService.logout();

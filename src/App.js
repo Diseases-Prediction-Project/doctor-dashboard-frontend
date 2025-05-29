@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import AddAppointment from './pages/AddAppointment';
+import Appointments from './pages/Appointments';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import EditProfileWorkingHours from './pages/EditProfileWorkingHours';
+import EditProfile from './pages/EditProfile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { authService } from './services/auth';
 import './App.css';
@@ -50,8 +51,9 @@ function App() {
         {user && (
           <>
             <Link style={{ color: 'white' }} to="/dashboard">Dashboard</Link>
-            <Link style={{ color: 'white' }} to="/edit-profile">Edit Profile</Link>
+            <Link style={{ color: 'white' }} to="/appointments">Appointments</Link>
             <Link style={{ color: 'white' }} to="/add-appointment">Add Appointment</Link>
+            <Link style={{ color: 'white' }} to="/edit-profile">Edit Profile</Link>
           </>
         )}
         {!user && (
@@ -63,7 +65,7 @@ function App() {
         {user && (
           <>
             <span style={{ marginLeft: 'auto', color: '#fff' }}>
-              Dr. {user.email}
+              Dr. {user.profile?.lastName || user.email}
             </span>
             <button onClick={handleLogout} style={{ marginLeft: '10px' }}>Logout</button>
           </>
@@ -82,9 +84,14 @@ function App() {
               <AddAppointment />
             </ProtectedRoute>
           } />
+          <Route path="/appointments" element={
+            <ProtectedRoute>
+              <Appointments />
+            </ProtectedRoute>
+          } />
           <Route path="/edit-profile" element={
             <ProtectedRoute>
-              <EditProfileWorkingHours />
+              <EditProfile />
             </ProtectedRoute>
           } />
           <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />

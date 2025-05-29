@@ -4,8 +4,11 @@ import { authService } from '../services/auth';
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = authService.isAuthenticated();
+  const user = authService.getCurrentUser();
 
-  if (!isAuthenticated) {
+  // Check both authentication and doctor status
+  if (!isAuthenticated || !user || !user.profile || !user.profile.isDoctor) {
+    authService.logout(); // Clear any invalid session
     return <Navigate to="/login" replace />;
   }
 
