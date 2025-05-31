@@ -10,6 +10,23 @@ body {
   color: #333;
 }
 
+.btn-primary , .bg-primary{
+  background-color: #2596BE !important;
+  border-color: #2596BE !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #1f7ea1 !important; /* Slightly darker for hover */
+  border-color: #1f7ea1 !important;
+}
+.btn-outline-light {
+  color: #fff !important;
+  background-color: #072431 !important;
+  border-color: white !important;
+}
+
+
 /* Navbar Styles */
 .navbar {
   display: flex;
@@ -20,6 +37,13 @@ body {
   color: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.sidebar-toggle {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 
 .navbar a {
   color: #ecf0f1;
@@ -49,9 +73,9 @@ body {
 
 /* Page Layout */
 .page-container {
-  max-width: 1200px;
+  /* max-width: 1200px;
   margin: 50px auto;
-  padding: 30px;
+  padding: 30px; */
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
@@ -166,14 +190,11 @@ body {
 }
 
 /* General page container */
-.container {
-  max-width: 1200px;
-  margin: 50px auto;
+/* .container {
+  
   padding: 30px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-}
+
+} */
 
 /* Headings */
 .heading {
@@ -210,14 +231,14 @@ body {
 
 
 /* Reuse existing container styling */
-.container {
+/* .container {
   max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-}
+} */
 
 /* Headings */
 .heading {
@@ -273,7 +294,7 @@ select {
 }
 
 /* Buttons */
-.btn {
+/* .btn {
   padding: 10px 20px;
   font-size: 15px;
   background-color: #3498db;
@@ -286,18 +307,18 @@ select {
 
 .btn:hover {
   background-color: #2980b9;
-}
+} */
 
 
 /* Shared container */
-.container {
+/* .container {
   max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-}
+} */
 
 /* Headings */
 .heading {
@@ -384,7 +405,7 @@ label {
 
 /* Button style */
 .btn {
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   font-size: 16px;
   background-color: #3498db;
@@ -428,16 +449,16 @@ table {
 @media (max-width: 1400px) {
   .container,
   .page-container {
-    max-width: 95%;
-    margin: 20px auto;
+    /* max-width: 95%; */
+    /* margin: 20px auto; */
   }
 }
 
 @media (max-width: 768px) {
   .container,
   .page-container {
-    padding: 20px;
-    margin: 10px;
+    /* padding: 20px;
+    margin: 10px; */
   }
   
   table {
