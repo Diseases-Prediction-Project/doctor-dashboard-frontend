@@ -64,11 +64,11 @@ function Signup() {
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
         <div className="row shadow-lg rounded-2 overflow-hidden login-wrapper w-100" style={{ maxWidth: '960px' }}>
           {/* Image Section */}
-          <div className="col-md-6 p-0">
+          <div className="col-md-4 p-0">
             <img src="/AIDOC.webp" alt="Health Illustration" className="img-fluid h-100 w-100 object-fit-cover" />
           </div>
           {/* Form Section */}
-          <div className="col-md-6 p-5 bg-white d-flex flex-column justify-content-center">
+          <div className="col-md-8 p-5 bg-white d-flex flex-column justify-content-center">
             <div className="login-card mx-auto" style={{ maxWidth: 420, width: '100%' }}>
               <h1 className="text-primary mb-3">Create Account</h1>
               <p className="text-secondary mb-4">Fill in the details to sign up.</p>

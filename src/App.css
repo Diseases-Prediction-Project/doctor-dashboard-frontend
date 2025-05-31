@@ -6,7 +6,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
+  background-color: white;
   color: #333;
 }
 
@@ -190,11 +190,11 @@ body {
 }
 
 /* General page container */
-/* .container {
+.container {
   
-  padding: 30px;
+  background-color: white;
 
-} */
+}
 
 /* Headings */
 .heading {
@@ -481,5 +481,5 @@ table {
   }
 }
 .main_login{
-  /* margin: 3rem; */
+  margin: 1rem;
 }
