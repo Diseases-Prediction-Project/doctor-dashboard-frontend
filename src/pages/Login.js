@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/auth';
 
-function Login() {
+function Login({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,7 @@ function Login() {
     const result = await authService.login(email, password);
     
     if (result.success) {
+      setUser(result.user);
       navigate('/dashboard');
     } else {
       setError(result.error);

@@ -22,10 +22,10 @@ The application will be available at http://localhost:3000
 
 ```bash
 # Tag for Azure Container Registry
-docker tag doctor-dashboard-frontend <your-registry>.azurecr.io/doctor-dashboard-frontend:latest
+docker tag doctor-dashboard-frontend elteacrwep.azurecr.io/dpred-frontend-doctor-service:latest
 
 # Push to registry
-docker push <your-registry>.azurecr.io/doctor-dashboard-frontend:latest
+docker push elteacrwep.azurecr.io/dpred-frontend-doctor-service:latest
 ```
 
 ## What it does

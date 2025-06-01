@@ -50,36 +50,29 @@ function App() {
     <Router>
       <Routes>
         {/* Protected Dashboard Layout Routes */}
-        {user && (
-          <Route path="/" element={<DashboardLayout user={user} handleLogout={handleLogout} />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route
-              path="dashboard"
-              element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
-            />
-            <Route
-              path="add-appointment"
-              element={<ProtectedRoute><AddAppointment /></ProtectedRoute>}
-            />
-            <Route
-              path="appointments"
-              element={<ProtectedRoute><Appointments /></ProtectedRoute>}
-            />
-            <Route
-              path="edit-profile"
-              element={<ProtectedRoute><EditProfile /></ProtectedRoute>}
-            />
-          </Route>
-        )}
+        <Route path="/" element={user ? <DashboardLayout user={user} handleLogout={handleLogout} /> : <Navigate to="/login" replace />}>
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route
+            path="dashboard"
+            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+          />
+          <Route
+            path="add-appointment"
+            element={<ProtectedRoute><AddAppointment /></ProtectedRoute>}
+          />
+          <Route
+            path="appointments"
+            element={<ProtectedRoute><Appointments /></ProtectedRoute>}
+          />
+          <Route
+            path="edit-profile"
+            element={<ProtectedRoute><EditProfile /></ProtectedRoute>}
+          />
+        </Route>
 
         {/* Public Routes */}
-        {!user && (
-          <>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-            <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <Signup />} />
-          </>
-        )}
+        <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login setUser={setUser} />} />
+        <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <Signup setUser={setUser} />} />
       </Routes>
     </Router>
   );
