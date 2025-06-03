@@ -13,7 +13,8 @@ function Appointments() {
   const [filters, setFilters] = useState({
     dateFrom: '',
     dateTo: '',
-    status: 'all'
+    status: 'all',
+    confirmationStatus: 'all'
   });
 
   // Edit form data
@@ -62,9 +63,16 @@ function Appointments() {
         const enrichedAppointments = await enrichAppointmentsWithPatientData(appointments);
         
         // Filter by status if needed
-        const filteredAppointments = filters.status === 'all' 
+        let filteredAppointments = filters.status === 'all' 
           ? enrichedAppointments
           : enrichedAppointments.filter(apt => apt.status === filters.status);
+          
+        // Filter by confirmation status
+        if (filters.confirmationStatus !== 'all') {
+          filteredAppointments = filteredAppointments.filter(apt => 
+            filters.confirmationStatus === 'confirmed' ? apt.isConfirmed : !apt.isConfirmed
+          );
+        }
           
         setAppointments(filteredAppointments);
       } else {
@@ -149,6 +157,28 @@ function Appointments() {
     setSelectedAppointment(appointment);
     setNotesMode(true);
     setEditMode(false);
+  };
+
+  const handleApprove = async (appointment) => {
+    const result = await appointmentService.updateAppointment(appointment.id, { isConfirmed: true });
+    if (result.success) {
+      fetchAppointments();
+    } else {
+      alert('Failed to approve appointment: ' + result.error);
+    }
+  };
+
+  const handleReject = async (appointment) => {
+    if (!window.confirm('Are you sure you want to reject this appointment?')) {
+      return;
+    }
+
+    const result = await appointmentService.deleteAppointment(appointment.id);
+    if (result.success) {
+      fetchAppointments();
+    } else {
+      alert('Failed to reject appointment: ' + result.error);
+    }
   };
 
   const handleDelete = async (appointment) => {
@@ -303,6 +333,19 @@ function Appointments() {
               <option value="completed">Completed</option>
             </select>
           </div>
+          <div>
+            <label style={{ fontSize: '14px' }}>Confirmation Status</label>
+            <select
+              name="confirmationStatus"
+              value={filters.confirmationStatus}
+              onChange={handleFilterChange}
+              style={{ width: '100%' }}
+            >
+              <option value="all">All</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="requested">Requested</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -346,11 +389,11 @@ function Appointments() {
                         padding: '4px 8px',
                         borderRadius: '4px',
                         fontSize: '12px',
-                        backgroundColor: getStatusColor(appointment.status),
+                        backgroundColor: appointment.isConfirmed ? '#2ecc71' : '#f39c12',
                         color: 'white',
                         textTransform: 'capitalize'
                       }}>
-                        {appointment.status}
+                        {appointment.isConfirmed ? 'Confirmed' : 'Requested'}
                       </span>
                     </td>
                     <td style={{ padding: '10px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -360,8 +403,24 @@ function Appointments() {
                       }
                     </td>
                     <td style={{ padding: '10px' }}>
-                      <div style={{ display: 'flex', gap: '5px' }}>
-                        {appointment.status === 'upcoming' && (
+                      <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                        {!appointment.isConfirmed && appointment.status === 'upcoming' && (
+                          <>
+                            <button 
+                              onClick={() => handleApprove(appointment)}
+                              style={{ padding: '4px 8px', fontSize: '12px', backgroundColor: '#2ecc71' }}
+                            >
+                              Approve
+                            </button>
+                            <button 
+                              onClick={() => handleReject(appointment)}
+                              style={{ padding: '4px 8px', fontSize: '12px', backgroundColor: '#dc3545' }}
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
+                        {appointment.isConfirmed && appointment.status === 'upcoming' && (
                           <>
                             <button 
                               onClick={() => handleEdit(appointment)}
