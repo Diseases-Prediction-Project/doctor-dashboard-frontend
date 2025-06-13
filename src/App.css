@@ -1,4 +1,8 @@
 /* Reset some default styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -45,7 +49,7 @@ body {
 
 /* Page Layout */
 .page-container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -64,6 +68,8 @@ body {
 .form {
   display: flex;
   flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .form label {
@@ -82,6 +88,8 @@ body {
   font-size: 16px;
   background-color: #fdfdfd;
   transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form input:focus,
@@ -89,6 +97,19 @@ body {
 .form select:focus {
   border-color: #1abc9c;
   outline: none;
+}
+
+/* Enhanced select styling for forms */
+.form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 40px;
+  cursor: pointer;
 }
 
 /* Buttons */
@@ -146,7 +167,7 @@ body {
 
 /* General page container */
 .container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -190,7 +211,7 @@ body {
 
 /* Reuse existing container styling */
 .container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: white;
@@ -229,7 +250,11 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="tel"],
-input[type="time"] {
+input[type="time"],
+input[type="date"],
+input[type="password"],
+input[type="number"],
+select {
   width: 100%;
   padding: 8px 10px;
   margin-top: 5px;
@@ -266,7 +291,7 @@ input[type="time"] {
 
 /* Shared container */
 .container {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 30px;
   background-color: #fff;
@@ -282,10 +307,15 @@ input[type="time"] {
   color: #2c3e50;
 }
 
-/* Inputs and textareas */
+/* Inputs, selects and textareas */
 input[type="text"],
 input[type="date"],
 input[type="time"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="number"],
+select,
 textarea {
   width: 100%;
   padding: 10px;
@@ -293,6 +323,55 @@ textarea {
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+/* Focus states */
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #1abc9c;
+  outline: none;
+}
+
+/* Disabled state */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Select specific styling to improve appearance */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Hover state for select */
+select:hover:not(:disabled) {
+  border-color: #3498db;
+}
+
+/* Option styling */
+select option {
+  padding: 10px;
+  background-color: #fff;
 }
 
 /* Label styling */
@@ -323,4 +402,60 @@ label {
 .text {
   text-align: center;
   color: #555;
+}
+
+/* Form container for better layout on large screens */
+.form-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Table responsive styles */
+table {
+  width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+/* Responsive wrapper for tables */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1400px) {
+  .container,
+  .page-container {
+    max-width: 95%;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .page-container {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  table {
+    font-size: 14px;
+  }
+  
+  /* Stack form elements on mobile */
+  .working-hour-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  /* Adjust dashboard cards */
+  .dashboard-cards {
+    flex-direction: column;
+  }
+  
+  .dashboard-card {
+    width: 100%;
+  }
 }
