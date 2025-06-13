@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import EditProfile from './pages/EditProfile';
 import ProtectedRoute from './components/ProtectedRoute';
+import DashboardLayout from './pages/DashboardLayout';
 import { authService } from './services/auth';
 import './App.css';
 
@@ -45,59 +46,41 @@ function App() {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
   }
 
-  return (
+ return (
     <Router>
-      <div className="navbar" style={{ display: 'flex', gap: '10px', padding: '10px', backgroundColor: '#1abc9c', color: '#fff' }}>
+      <Routes>
+        {/* Protected Dashboard Layout Routes */}
         {user && (
-          <>
-            <Link style={{ color: 'white' }} to="/dashboard">Dashboard</Link>
-            <Link style={{ color: 'white' }} to="/appointments">Appointments</Link>
-            <Link style={{ color: 'white' }} to="/add-appointment">Add Appointment</Link>
-            <Link style={{ color: 'white' }} to="/edit-profile">Edit Profile</Link>
-          </>
+          <Route path="/" element={<DashboardLayout user={user} handleLogout={handleLogout} />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route
+              path="dashboard"
+              element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+            />
+            <Route
+              path="add-appointment"
+              element={<ProtectedRoute><AddAppointment /></ProtectedRoute>}
+            />
+            <Route
+              path="appointments"
+              element={<ProtectedRoute><Appointments /></ProtectedRoute>}
+            />
+            <Route
+              path="edit-profile"
+              element={<ProtectedRoute><EditProfile /></ProtectedRoute>}
+            />
+          </Route>
         )}
+
+        {/* Public Routes */}
         {!user && (
           <>
-            <Link style={{ color: 'white' }} to="/login">Login</Link>
-            <Link style={{ color: 'white' }} to="/signup">Sign Up</Link>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+            <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <Signup />} />
           </>
         )}
-        {user && (
-          <>
-            <span style={{ marginLeft: 'auto', color: '#fff' }}>
-              Dr. {user.profile?.lastName || user.email}
-            </span>
-            <button onClick={handleLogout} style={{ marginLeft: '10px' }}>Logout</button>
-          </>
-        )}
-      </div>
-      <div style={{ padding: '20px' }}>
-        <Routes>
-          <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/add-appointment" element={
-            <ProtectedRoute>
-              <AddAppointment />
-            </ProtectedRoute>
-          } />
-          <Route path="/appointments" element={
-            <ProtectedRoute>
-              <Appointments />
-            </ProtectedRoute>
-          } />
-          <Route path="/edit-profile" element={
-            <ProtectedRoute>
-              <EditProfile />
-            </ProtectedRoute>
-          } />
-          <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-          <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <Signup />} />
-        </Routes>
-      </div>
+      </Routes>
     </Router>
   );
 }

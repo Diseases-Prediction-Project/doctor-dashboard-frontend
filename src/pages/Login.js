@@ -26,37 +26,64 @@ function Login() {
   };
 
   return (
-    <div className="page-container">
-      <h2>Login</h2>
-      {error && (
-        <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>
-          {error}
+  
+      <div className="container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="row shadow-lg rounded-2 overflow-hidden login-wrapper w-100" style={{ maxWidth: '960px' }}>
+          {/* Form Section */}
+          <div className="col-md-6 p-5 bg-white d-flex flex-column justify-content-center">
+            <div className="login-card mx-auto" style={{ maxWidth: 420, width: '100%' }}>
+              <h1 className="text-primary mb-3">Welcome Back</h1>
+              <p className="text-secondary mb-4">Please enter your credentials to log in.</p>
+
+              {error && <div className="alert alert-danger">{error}</div>}
+
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                  {loading ? 'Logging in...' : 'Login'}
+                </button>
+
+                <div className="mt-3 text-center">
+                  <p className="text-secondary mb-0">
+                    Don’t have an account?{' '}
+                    <a href="/signup" className="text-primary">Sign up</a>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* Image Section */}
+          <div className="col-md-6 p-0">
+            <img src="/AIDOC.webp" alt="Login illustration" className="img-fluid h-100 w-100 object-fit-cover" />
+          </div>
         </div>
-      )}
-      <form onSubmit={handleLogin} className="form">
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-          disabled={loading}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-          disabled={loading}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-    </div>
+      </div>
   );
 }
 
