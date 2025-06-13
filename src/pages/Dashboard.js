@@ -12,7 +12,9 @@ const Dashboard = () => {
   const [error, setError] = useState('');
   const [stats, setStats] = useState({
     todayCount: 0,
-    weekCount: 0
+    weekCount: 0,
+    todayConfirmed: 0,
+    weekConfirmed: 0
   });
 
   useEffect(() => {
@@ -49,7 +51,9 @@ const Dashboard = () => {
       // Calculate stats
       setStats({
         todayCount: todayWithPatients.length,
-        weekCount: upcomingWithPatients.length
+        weekCount: upcomingWithPatients.length,
+        todayConfirmed: todayWithPatients.filter(apt => apt.isConfirmed).length,
+        weekConfirmed: upcomingWithPatients.filter(apt => apt.isConfirmed).length
       });
     } catch (err) {
       setError(err.message || 'Failed to load appointments');
@@ -131,16 +135,28 @@ const Dashboard = () => {
           )}
         </div>
         <div style={{ textAlign: 'right' }}>
-          <span style={{
-            padding: '4px 8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            backgroundColor: getStatusColor(appointment.status),
-            color: 'white',
-            textTransform: 'capitalize'
-          }}>
-            {appointment.status}
-          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-end' }}>
+            <span style={{
+              padding: '4px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              backgroundColor: getStatusColor(appointment.status),
+              color: 'white',
+              textTransform: 'capitalize'
+            }}>
+              {appointment.status}
+            </span>
+            <span style={{
+              padding: '4px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              backgroundColor: appointment.isConfirmed ? '#2ecc71' : '#f39c12',
+              color: 'white',
+              textTransform: 'capitalize'
+            }}>
+              {appointment.isConfirmed ? 'Confirmed' : 'Requested'}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -188,6 +204,9 @@ const Dashboard = () => {
           <p style={{ fontSize: '36px', fontWeight: 'bold', margin: '0', color: '#1abc9c' }}>
             {stats.todayCount}
           </p>
+          <p style={{ fontSize: '14px', color: '#666', margin: '5px 0 0 0' }}>
+            {stats.todayConfirmed} confirmed, {stats.todayCount - stats.todayConfirmed} pending
+          </p>
         </div>
         <div style={{ 
           backgroundColor: '#f8f9fa', 
@@ -198,6 +217,9 @@ const Dashboard = () => {
           <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>Next 7 Days</h3>
           <p style={{ fontSize: '36px', fontWeight: 'bold', margin: '0', color: '#3498db' }}>
             {stats.weekCount}
+          </p>
+          <p style={{ fontSize: '14px', color: '#666', margin: '5px 0 0 0' }}>
+            {stats.weekConfirmed} confirmed, {stats.weekCount - stats.weekConfirmed} pending
           </p>
         </div>
       </div>

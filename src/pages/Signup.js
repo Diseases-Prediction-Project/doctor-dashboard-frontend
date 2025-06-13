@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/auth';
 
-function Signup() {
+function Signup({ setUser }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -50,6 +50,7 @@ function Signup() {
     const result = await authService.signup(signupData);
     
     if (result.success) {
+      setUser(result.user);
       alert('Account created successfully!');
       navigate('/dashboard');
     } else {
